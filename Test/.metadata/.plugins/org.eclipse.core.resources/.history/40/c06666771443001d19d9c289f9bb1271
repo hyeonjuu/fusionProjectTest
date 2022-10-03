@@ -1,0 +1,52 @@
+package test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class UserDAO {
+	
+	private Connection conn = null;
+	private PreparedStatement pstmt; //쿼리문 대기 및 설정
+	private ResultSet rs; //결괏값
+
+	public UserDAO() {
+		//드라이버 검색 (db와 연동 준비)
+		try {
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+				String db_url = "jdbc:oracle:thin:@localhost:1521:xe";
+				String db_id = "hyeonju";
+				String db_pwd = "dkagh";
+				conn = DriverManager.getConnection(db_url,db_id,db_pwd);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+	}
+	
+	public int login(String ID, String Password) {
+		String sql =  "select PASSWORD from member where ID = ?";
+		try{
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,ID);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getString(1).equals(Password)) {
+					return 1;
+				}else {
+					return 0;
+				}
+			}
+			return -1;	
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+		
+
+	
+
+
+}

@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="test.UserDAO" %>
+<% request.setCharacterEncoding("UTF-8"); %>
+<jsp:useBean id="Account" class="test.Account" scope="page"/>
+<jsp:setProperty name="Account" property="ID"/>
+<jsp:setProperty name="Account" property="PASSWORD"/>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+	UserDAO userDAO = new UserDAO();
+	int result = userDAO.login(user.getID, user.getPassword);
+	
+%>
+</body>
+</html>
